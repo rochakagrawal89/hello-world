@@ -17,7 +17,7 @@
 
     <name>server</name>
 
-    <!-- ✅ Dependencies -->
+    <!-- Dependencies -->
     <dependencies>
 
         <!-- JUnit 4 (for @Test, @Before, etc.) -->
@@ -38,7 +38,7 @@
 
     </dependencies>
 
-    <!-- ✅ Build plugins -->
+    <!-- Build plugins -->
     <build>
         <plugins>
 
