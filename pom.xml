@@ -10,91 +10,25 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Maven Project</name>
-    <description>Sample multi-module Maven project</description>
-    <url>http://www.example.com</url>
+    <name>Maven Multi Module Demo</name>
 
-    <!-- ================================================== -->
-    <!-- GLOBAL PROPERTIES -->
-    <!-- ================================================== -->
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-        <!-- Java Version -->
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-
-    <!-- ================================================== -->
-    <!-- MODULES -->
-    <!-- ================================================== -->
+    <!-- ✅ Modules -->
     <modules>
         <module>server</module>
         <module>webapp</module>
     </modules>
 
-    <!-- ================================================== -->
-    <!-- DISTRIBUTION MANAGEMENT -->
-    <!-- ================================================== -->
-    <distributionManagement>
-        <site>
-            <id>site-server</id>
-            <name>Test Project Site</name>
-            <url>file:///tmp/maven-project-site</url>
-        </site>
-    </distributionManagement>
+    <!-- ✅ Java version (single source of truth) -->
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-    <!-- ================================================== -->
-    <!-- BUILD -->
-    <!-- ================================================== -->
-   <build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-enforcer-plugin</artifactId>
-            <version>3.4.1</version>
-            <executions>
-                <execution>
-                    <id>enforce-maven</id>
-                    <goals>
-                        <goal>enforce</goal>
-                    </goals>
-                    <configuration>
-                        <rules>
-                            <requireMavenVersion>
-                                <version>[3.6,)</version>
-                            </requireMavenVersion>
-                        </rules>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins>
-</build>
-    <!-- ================================================== -->
-    <!-- DEPENDENCY MANAGEMENT -->
-    <!-- ================================================== -->
+    <!-- ✅ Centralized dependency versions -->
     <dependencyManagement>
         <dependencies>
 
-            <!-- Servlet API -->
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
-                <version>3.1.0</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <!-- JSP API -->
-            <dependency>
-                <groupId>javax.servlet.jsp</groupId>
-                <artifactId>javax.servlet.jsp-api</artifactId>
-                <version>2.3.3</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <!-- JUnit -->
+            <!-- JUnit 4 -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -102,30 +36,52 @@
                 <scope>test</scope>
             </dependency>
 
-            <!-- Mockito -->
+            <!-- Hamcrest -->
             <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>5.11.0</version>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
+                <version>2.2</version>
                 <scope>test</scope>
             </dependency>
 
         </dependencies>
     </dependencyManagement>
 
-    <!-- ================================================== -->
-    <!-- SCM -->
-    <!-- ================================================== -->
-    <scm>
-        <connection>scm:git:git@github.com:jleetutorial/maven-project.git</connection>
-        <developerConnection>scm:git:git@github.com:jleetutorial/maven-project.git</developerConnection>
-        <tag>HEAD</tag>
-        <url>http://github.com/jleetutorial/maven-project</url>
-    </scm>
+    <!-- ✅ Plugin versions -->
+    <build>
+        <pluginManagement>
+            <plugins>
 
-    <!-- ================================================== -->
-    <!-- MAVEN VERSION -->
-    <!-- ================================================== -->
+                <!-- Compiler -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.11.0</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
 
+                <!-- Unit Tests -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.2.5</version>
+                </plugin>
+
+                <!-- 🔥 WAR Plugin (FIXES your crash) -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.4.0</version>
+                    <configuration>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>
